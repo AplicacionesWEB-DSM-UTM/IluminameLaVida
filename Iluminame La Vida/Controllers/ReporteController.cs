@@ -24,7 +24,13 @@ namespace Iluminame_La_Vida.Controllers
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
                 {
-                    var list = db.Reportes.ToList();
+                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new{
+                        Descripcion = Reporte.Descrip,
+                        Foto = Reporte.Foto,
+                        Etiqueta = Reporte.Etiquetas,
+                        Colonia = Reporte.Colonia,
+                        Usuario = Registro.Mail,
+                        Coordenadas = Reporte.Coordenadas}).ToList();
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
                 }
