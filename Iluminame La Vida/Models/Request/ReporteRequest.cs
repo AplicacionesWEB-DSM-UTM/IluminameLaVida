@@ -9,12 +9,12 @@ namespace Iluminame_La_Vida.Models.Request
     {
         public int Id_Reporte { get; set; }
         public int Id_Usuario { get; set; }
-        public string Usuario { get; set; }
-        public string Foto { get; set; }
-        public string Descripcion { get; set; }
-        public string Etiqueta { get; set; }
-        public string Coordenadas { get; set; }
-        public string Colonia { get; set; }
+        public int Id_Etiqueta { get; set; }
+        public DateTime FechaDen { get; set; }
+        public string DescripLugar { get; set; }
+        public string Coords { get; set; }
+        public string Foto_Reporte { get; set; }
+
     }
 }
 

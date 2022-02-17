@@ -22,7 +22,7 @@ namespace Iluminame_La_Vida.Controllers
             Respuesta<List<Registro>> oRespuesta = new Respuesta<List<Registro>>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     var list = db.Registros.ToList();
                     oRespuesta.Exito = 1;
@@ -43,14 +43,14 @@ namespace Iluminame_La_Vida.Controllers
             Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     Registro oPro = new Registro();
-                    oPro.Mail = model.mail;
-                    oPro.Pass = model.pass;
-                    oPro.Nombre = model.nombre;
-                    oPro.Apellidos = model.apellidos;
-                    oPro.Colonia = model.colonia;
+                    oPro.Correo = model.Correo;
+                    oPro.Contraseña = model.Contraseña;
+                    oPro.Nombre = model.Nombre;
+                    oPro.Apellidos = model.Apellidos;
+                    oPro.Foto = model.Foto;
                     db.Registros.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -70,14 +70,14 @@ namespace Iluminame_La_Vida.Controllers
             Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    Registro oPro = db.Registros.Find(model.Id_Usuario);
-                    oPro.Mail = model.mail;
-                    oPro.Pass = model.pass;
-                    oPro.Nombre = model.nombre;
-                    oPro.Apellidos = model.apellidos;
-                    oPro.Colonia = model.colonia;
+                    Registro oPro = db.Registros.Find(model.IdUsuario);
+                    oPro.Correo = model.Correo;
+                    oPro.Contraseña = model.Contraseña;
+                    oPro.Nombre = model.Nombre;
+                    oPro.Apellidos = model.Apellidos;
+                    oPro.Foto = model.Foto;
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -98,7 +98,7 @@ namespace Iluminame_La_Vida.Controllers
 
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     Registro oPro = db.Registros.Find(Id);
                     db.Remove(oPro);
@@ -112,6 +112,8 @@ namespace Iluminame_La_Vida.Controllers
             }
             return Ok(oRespuesta);
         }
+    }
+}
 
         /* se puede usar el siguiente json para probar el metodo post
         {
@@ -121,5 +123,5 @@ namespace Iluminame_La_Vida.Controllers
             "apellidos": "cauich",
             "colonia": "mecedes barrera"
         }*/
-    }
-}
+    //}
+//}

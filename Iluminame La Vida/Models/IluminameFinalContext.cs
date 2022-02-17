@@ -6,17 +6,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Iluminame_La_Vida.Models
 {
-    public partial class IluminameLaVidaContext : DbContext
+    public partial class IluminameFinalContext : DbContext
     {
-        public IluminameLaVidaContext()
+        public IluminameFinalContext()
         {
         }
 
-        public IluminameLaVidaContext(DbContextOptions<IluminameLaVidaContext> options)
+        public IluminameFinalContext(DbContextOptions<IluminameFinalContext> options)
             : base(options)
         {
         }
 
+        public virtual DbSet<Etiquetum> Etiqueta { get; set; }
         public virtual DbSet<Registro> Registros { get; set; }
         public virtual DbSet<Reporte> Reportes { get; set; }
 
@@ -25,70 +26,56 @@ namespace Iluminame_La_Vida.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server =LAPTOP-AP83LF2M; Database =IluminameLaVida; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server =DESKTOP-L2QVN2H\\SQLEXPRESS; Database =IluminameFinal; Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Etiquetum>(entity =>
+            {
+                entity.HasKey(e => e.IdEtiqueta);
+
+                entity.Property(e => e.IdEtiqueta)
+                    .ValueGeneratedNever()
+                    .HasColumnName("Id_etiqueta");
+
+                entity.Property(e => e.DescEti)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("Desc_Eti");
+
+                entity.Property(e => e.FotoEti)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("Foto_Eti");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Registro>(entity =>
             {
                 entity.HasKey(e => e.IdUsuario);
 
                 entity.ToTable("Registro");
 
-                entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
+                entity.Property(e => e.IdUsuario).HasColumnName("Id_usuario");
 
                 entity.Property(e => e.Apellidos)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Colonia)
+                entity.Property(e => e.Contraseña)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Mail)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Pass)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Reporte>(entity =>
-            {
-                entity.HasKey(e => e.IdReporte);
-
-                entity.ToTable("Reporte");
-
-                entity.Property(e => e.IdReporte).HasColumnName("Id_Reporte");
-
-                entity.Property(e => e.Colonia)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Coordenadas)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Descrip)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Etiquetas)
+                entity.Property(e => e.Correo)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -98,13 +85,53 @@ namespace Iluminame_La_Vida.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Reporte>(entity =>
+            {
+                entity.HasKey(e => e.IdReporte);
+
+                entity.Property(e => e.IdReporte)
+                    .ValueGeneratedNever()
+                    .HasColumnName("Id_Reporte");
+
+                entity.Property(e => e.Coords)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DescripLugar)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaDen).HasColumnType("datetime");
+
+                entity.Property(e => e.FotoReporte)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("Foto_Reporte");
+
+                entity.Property(e => e.IdEtiqueta).HasColumnName("Id_Etiqueta");
+
+                entity.Property(e => e.IdUsuario).HasColumnName("Id_usuario");
+
+                entity.HasOne(d => d.IdEtiquetaNavigation)
+                    .WithMany(p => p.Reportes)
+                    .HasForeignKey(d => d.IdEtiqueta)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Reportes_Etiqueta");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Reportes)
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Reporte_Registro");
+                    .HasConstraintName("FK_Reportes_Registro");
             });
 
             OnModelCreatingPartial(modelBuilder);

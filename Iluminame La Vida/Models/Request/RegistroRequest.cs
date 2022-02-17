@@ -7,13 +7,13 @@ namespace Iluminame_La_Vida.Models.Request
 {
     public class RegistroRequest
     {
-        public int Id_Usuario { get; set; }
-        public string mail { get; set; }
-        public string pass { get; set; }
-        public string nombre { get; set; }
-        public string apellidos { get; set; }
-        public string colonia { get; set; }
-       
+        public int IdUsuario { get; set; }
+        public string Nombre { get; set; }
+        public string Apellidos { get; set; }
+        public string Correo { get; set; }
+        public string Contraseña { get; set; }
+        public string Foto { get; set; }
+
 
     }
 }

@@ -22,17 +22,18 @@ namespace Iluminame_La_Vida.Controllers
             Respuesta<List<ReporteRequest>> oRespuesta = new Respuesta<List<ReporteRequest>>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
-                     {
+                    {
                         Id_Reporte = Reporte.IdReporte,
-                        Foto = Reporte.Foto,
-                        Descripcion = Reporte.Descrip,
-                        Etiqueta = Reporte.Etiquetas,
-                        Colonia = Reporte.Colonia,
-                        Usuario = Registro.Mail,
-                        Coordenadas = Reporte.Coordenadas }).ToList();
+                        Foto_Reporte = Reporte.FotoReporte,
+                        DescripLugar = Reporte.DescripLugar,
+                        Id_Etiqueta = Reporte.IdEtiqueta,
+                        Id_Usuario = Registro.IdUsuario,
+                        Coords = Reporte.Coords,
+                        FechaDen = Reporte.FechaDen
+                    }).ToList();
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
                 }
@@ -50,16 +51,17 @@ namespace Iluminame_La_Vida.Controllers
             Respuesta<ReporteRequest> oRespuesta = new Respuesta<ReporteRequest>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest {
+                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
+                    {
                         Id_Reporte = Reporte.IdReporte,
-                        Foto = Reporte.Foto,
-                        Descripcion = Reporte.Descrip,
-                        Etiqueta = Reporte.Etiquetas,
-                        Colonia = Reporte.Colonia,
-                        Usuario = Registro.Mail,
-                        Coordenadas = Reporte.Coordenadas
+                        Foto_Reporte = Reporte.FotoReporte,
+                        DescripLugar = Reporte.DescripLugar,
+                        Id_Etiqueta = Reporte.IdEtiqueta,
+                        Id_Usuario = Registro.IdUsuario,
+                        Coords = Reporte.Coords,
+                        FechaDen = Reporte.FechaDen
                     }).FirstOrDefault(x => x.Id_Reporte == id);
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
@@ -73,21 +75,21 @@ namespace Iluminame_La_Vida.Controllers
         }
 
         [HttpPost]
-        //Crear reportes
+        //con esto vamos a agregar reportes
         public IActionResult Add(ReporteRequest model)
         {
             Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     Reporte oPro = new Reporte();
-                    oPro.Descrip = model.Descripcion;
-                    oPro.Foto = model.Foto;
-                    oPro.Etiquetas = model.Etiqueta;
-                    oPro.Colonia = model.Colonia;
                     oPro.IdUsuario = model.Id_Usuario;
-                    oPro.Coordenadas = model.Coordenadas;
+                    oPro.IdEtiqueta = model.Id_Etiqueta;
+                    oPro.FechaDen = model.FechaDen;
+                    oPro.DescripLugar = model.DescripLugar;
+                    oPro.Coords = model.Coords;
+                    oPro.FotoReporte = model.Foto_Reporte;
                     db.Reportes.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -99,6 +101,7 @@ namespace Iluminame_La_Vida.Controllers
             }
             return Ok(oRespuesta);
         }
+    
 
         [HttpPut]
 
@@ -109,15 +112,15 @@ namespace Iluminame_La_Vida.Controllers
             Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     Reporte oPro = db.Reportes.Find(model.Id_Reporte);
-                    oPro.Descrip = model.Descripcion;
-                    oPro.Foto = model.Foto;
-                    oPro.Etiquetas = model.Etiqueta;
-                    oPro.Colonia = model.Colonia;
+                    oPro.DescripLugar = model.DescripLugar;
+                    oPro.FotoReporte = model.Foto_Reporte;
+                    oPro.IdEtiqueta = model.Id_Etiqueta;
                     oPro.IdUsuario = model.Id_Usuario;
-                    oPro.Coordenadas = model.Coordenadas;
+                    oPro.Coords = model.Coords;
+                    oPro.FechaDen = model.FechaDen;
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -138,7 +141,7 @@ namespace Iluminame_La_Vida.Controllers
 
             try
             {
-                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     Reporte oPro = db.Reportes.Find(Id);
                     db.Remove(oPro);
@@ -152,16 +155,7 @@ namespace Iluminame_La_Vida.Controllers
             }
             return Ok(oRespuesta);
         }
-
-
-        /* se puede usar el siguiente json para probar el metodo post
-        {
-            "descrip": "ta feo",
-            "foto": "photo2.png",
-            "etiquetas": "huele mal",
-            "colonia": "mercedes barrera",
-            "Id_Usuario": 11,
-            "coordenadas": "123456"
-        }*/
     }
 }
+
+
