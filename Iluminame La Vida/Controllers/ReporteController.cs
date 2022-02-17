@@ -19,18 +19,48 @@ namespace Iluminame_La_Vida.Controllers
         //consultar reportes
         public IActionResult Get()
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<List<ReporteRequest>> oRespuesta = new Respuesta<List<ReporteRequest>>();
             try
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
                 {
-                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new{
-                        Descripcion = Reporte.Descrip,
+                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
+                     {
+                        Id_Reporte = Reporte.IdReporte,
                         Foto = Reporte.Foto,
+                        Descripcion = Reporte.Descrip,
                         Etiqueta = Reporte.Etiquetas,
                         Colonia = Reporte.Colonia,
                         Usuario = Registro.Mail,
-                        Coordenadas = Reporte.Coordenadas}).ToList();
+                        Coordenadas = Reporte.Coordenadas }).ToList();
+                    oRespuesta.Exito = 1;
+                    oRespuesta.Data = list;
+                }
+            }
+            catch (Exception ex)
+            {
+                oRespuesta.Mensaje = ex.Message;
+            }
+            return Ok(oRespuesta);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            Respuesta<ReporteRequest> oRespuesta = new Respuesta<ReporteRequest>();
+            try
+            {
+                using (IluminameLaVidaContext db = new IluminameLaVidaContext())
+                {
+                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest {
+                        Id_Reporte = Reporte.IdReporte,
+                        Foto = Reporte.Foto,
+                        Descripcion = Reporte.Descrip,
+                        Etiqueta = Reporte.Etiquetas,
+                        Colonia = Reporte.Colonia,
+                        Usuario = Registro.Mail,
+                        Coordenadas = Reporte.Coordenadas
+                    }).FirstOrDefault(x => x.Id_Reporte == id);
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
                 }
@@ -46,18 +76,18 @@ namespace Iluminame_La_Vida.Controllers
         //Crear reportes
         public IActionResult Add(ReporteRequest model)
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
                 {
                     Reporte oPro = new Reporte();
-                    oPro.Descrip = model.descrip;
-                    oPro.Foto = model.foto;
-                    oPro.Etiquetas = model.etiquetas;
-                    oPro.Colonia = model.colonia;
+                    oPro.Descrip = model.Descripcion;
+                    oPro.Foto = model.Foto;
+                    oPro.Etiquetas = model.Etiqueta;
+                    oPro.Colonia = model.Colonia;
                     oPro.IdUsuario = model.Id_Usuario;
-                    oPro.Coordenadas = model.coordenadas;
+                    oPro.Coordenadas = model.Coordenadas;
                     db.Reportes.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -76,18 +106,18 @@ namespace Iluminame_La_Vida.Controllers
 
         public IActionResult Edit(ReporteRequest model)
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
                 {
                     Reporte oPro = db.Reportes.Find(model.Id_Reporte);
-                    oPro.Descrip = model.descrip;
-                    oPro.Foto = model.foto;
-                    oPro.Etiquetas = model.etiquetas;
-                    oPro.Colonia = model.colonia;
+                    oPro.Descrip = model.Descripcion;
+                    oPro.Foto = model.Foto;
+                    oPro.Etiquetas = model.Etiqueta;
+                    oPro.Colonia = model.Colonia;
                     oPro.IdUsuario = model.Id_Usuario;
-                    oPro.Coordenadas = model.coordenadas;
+                    oPro.Coordenadas = model.Coordenadas;
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -104,7 +134,7 @@ namespace Iluminame_La_Vida.Controllers
         //Con este metodo vamos a eliminar cualquiera que querramos
         public IActionResult Del(int Id)
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<object> oRespuesta = new Respuesta<object>();
 
             try
             {

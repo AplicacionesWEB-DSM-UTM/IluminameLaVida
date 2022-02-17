@@ -8,12 +8,13 @@ namespace Iluminame_La_Vida.Models.Request
     public class ReporteRequest
     {
         public int Id_Reporte { get; set; }
-        public string descrip { get; set; }
-        public string foto { get; set; }
-        public string etiquetas { get; set; }
-        public string colonia { get; set; }
         public int Id_Usuario { get; set; }
-        public string coordenadas { get; set; }
+        public string Usuario { get; set; }
+        public string Foto { get; set; }
+        public string Descripcion { get; set; }
+        public string Etiqueta { get; set; }
+        public string Coordenadas { get; set; }
+        public string Colonia { get; set; }
     }
 }
 

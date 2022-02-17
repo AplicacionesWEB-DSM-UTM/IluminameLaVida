@@ -19,7 +19,7 @@ namespace Iluminame_La_Vida.Controllers
         //Consultar correos
         public IActionResult Get()
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<List<Registro>> oRespuesta = new Respuesta<List<Registro>>();
             try
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
@@ -40,7 +40,7 @@ namespace Iluminame_La_Vida.Controllers
         //Agregar usuario
         public IActionResult Add(RegistroRequest model)
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
@@ -67,7 +67,7 @@ namespace Iluminame_La_Vida.Controllers
 
         public IActionResult Edit(RegistroRequest model)
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
                 using (IluminameLaVidaContext db = new IluminameLaVidaContext())
@@ -94,7 +94,7 @@ namespace Iluminame_La_Vida.Controllers
         //Con este metodo vamos a eliminar cualquiera que querramos
         public IActionResult Del(int Id)
         {
-            Respuesta oRespuesta = new Respuesta();
+            Respuesta<object> oRespuesta = new Respuesta<object>();
 
             try
             {
