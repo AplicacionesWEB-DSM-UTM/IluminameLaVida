@@ -13,37 +13,17 @@ namespace Iluminame_La_Vida.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegistroController : ControllerBase
+    public class EtiquetaController : ControllerBase
     {
         [HttpGet]
-        //Consultar correos
         public IActionResult Get()
         {
-            Respuesta<List<Usuario>> oRespuesta = new Respuesta<List<Usuario>>();
+            Respuesta<List<Etiqueta>> oRespuesta = new Respuesta<List<Etiqueta>>();
             try
             {
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    var list = db.Usuarios.ToList();
-                    oRespuesta.Exito = 1;
-                    oRespuesta.Data = list;
-                }
-            }
-            catch (Exception ex)
-            {
-                oRespuesta.Mensaje = ex.Message;
-            }
-            return Ok(oRespuesta);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            Respuesta<Usuario> oRespuesta = new Respuesta<Usuario>();
-            try
-            {
-                using (IluminameFinalContext db = new IluminameFinalContext())
-                {
-                    var list = db.Usuarios.Find(id);
+                    var list = db.Etiqueta.ToList();
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
                 }
@@ -56,21 +36,18 @@ namespace Iluminame_La_Vida.Controllers
         }
 
         [HttpPost]
-        //Agregar usuario
-        public IActionResult Add(RegistroRequest model)
+        public IActionResult Add(EtiquetaRequest model)
         {
             Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    Usuario oPro = new Usuario();
-                    oPro.Correo = model.Correo;
-                    oPro.Contraseña = model.Contraseña;
+                    Etiqueta oPro = new Etiqueta();
                     oPro.Nombre = model.Nombre;
-                    oPro.Apellidos = model.Apellidos;
+                    oPro.Descripcion = model.Descripcion;
                     oPro.Foto = model.Foto;
-                    db.Usuarios.Add(oPro);
+                    db.Etiqueta.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
                 }
@@ -82,20 +59,16 @@ namespace Iluminame_La_Vida.Controllers
             return Ok(oRespuesta);
         }
         [HttpPut]
-        //Este metodo sirve para editar los correos
-
-        public IActionResult Edit(RegistroRequest model)
+        public IActionResult Edit(EtiquetaRequest model)
         {
             Respuesta<object> oRespuesta = new Respuesta<object>();
             try
             {
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    Usuario oPro = db.Usuarios.Find(model.IdUsuario);
-                    oPro.Correo = model.Correo;
-                    oPro.Contraseña = model.Contraseña;
+                    Etiqueta oPro = db.Etiqueta.Find(model.Id_Etiqueta);
                     oPro.Nombre = model.Nombre;
-                    oPro.Apellidos = model.Apellidos;
+                    oPro.Descripcion = model.Descripcion;
                     oPro.Foto = model.Foto;
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
@@ -110,7 +83,6 @@ namespace Iluminame_La_Vida.Controllers
         }
 
         [HttpDelete("{Id}")]
-        //Con este metodo vamos a eliminar cualquiera que querramos
         public IActionResult Del(int Id)
         {
             Respuesta<object> oRespuesta = new Respuesta<object>();
@@ -119,7 +91,7 @@ namespace Iluminame_La_Vida.Controllers
             {
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    Usuario oPro = db.Usuarios.Find(Id);
+                    Etiqueta oPro = db.Etiqueta.Find(Id);
                     db.Remove(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -133,22 +105,17 @@ namespace Iluminame_La_Vida.Controllers
         }
     }
 }
-
 /* se puede usar el siguiente json para probar el metodo post
 {
-    "nombre": "Luis",
-    "apellidos": "Pool",
-    "correo": "luis@hotmail.com",
-    "contraseña": "0987654321",
-    "foto": "1234rtyj.jpg"
+    "nombre": "Rota",
+    "descripcion": "La bombilla esta rota",
+    "foto": "Rota.jpg"
 }
 se puede usar el siguiente json para probar el metodo put
 {
-    "id_Usuario":9,
-    "nombre": "Luis",
-    "apellidos": "Pool",
-    "correo": "luis@outlook.es",
-    "contraseña": "0987654321",
-    "foto": "ertyuio9.jpg"
+    "id_Etiqueta": 4,
+    "nombre": "Bombilla rota",
+    "descripcion": "La bombilla esta rota",
+    "foto": "Bombilla_rota.jpg"
 }
 */

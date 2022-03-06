@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace Iluminame_La_Vida.Models
 {
-    public partial class Registro
+    public partial class Usuario
     {
-        public Registro()
+        public Usuario()
         {
             Reportes = new HashSet<Reporte>();
         }

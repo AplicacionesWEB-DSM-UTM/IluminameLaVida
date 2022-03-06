@@ -24,15 +24,29 @@ namespace Iluminame_La_Vida.Controllers
             {
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
+                    var list = db.Reportes.Join(db.Usuarios, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
                     {
                         Id_Reporte = Reporte.IdReporte,
-                        Foto_Reporte = Reporte.FotoReporte,
-                        DescripLugar = Reporte.DescripLugar,
                         Id_Etiqueta = Reporte.IdEtiqueta,
-                        Id_Usuario = Registro.IdUsuario,
-                        Coords = Reporte.Coords,
-                        FechaDen = Reporte.FechaDen
+                        Id_Usuario = Reporte.IdUsuario,
+                        Usuario = Registro.Correo,
+                        Foto = Reporte.Foto,
+                        Descripcion = Reporte.Descripcion,
+                        Latitud = Reporte.Latitud,
+                        Longitud = Reporte.Longitud,
+                        Fecha = Reporte.Fecha
+                    }).Join(db.Etiqueta, Etiqueta => Etiqueta.Id_Etiqueta, Reporte => Reporte.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest
+                    {
+                        Id_Reporte = Reporte.Id_Reporte,
+                        Id_Etiqueta = Reporte.Id_Etiqueta,
+                        Id_Usuario = Reporte.Id_Usuario,
+                        Etiqueta = Etiqueta.Nombre,
+                        Usuario = Reporte.Usuario,
+                        Foto = Reporte.Foto,
+                        Descripcion = Reporte.Descripcion,
+                        Latitud = Reporte.Latitud,
+                        Longitud = Reporte.Longitud,
+                        Fecha = Reporte.Fecha
                     }).ToList();
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
@@ -53,15 +67,29 @@ namespace Iluminame_La_Vida.Controllers
             {
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
-                    var list = db.Reportes.Join(db.Registros, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
+                    var list = db.Reportes.Join(db.Usuarios, Reporte => Reporte.IdUsuario, Registro => Registro.IdUsuario, (Reporte, Registro) => new ReporteRequest
                     {
                         Id_Reporte = Reporte.IdReporte,
-                        Foto_Reporte = Reporte.FotoReporte,
-                        DescripLugar = Reporte.DescripLugar,
                         Id_Etiqueta = Reporte.IdEtiqueta,
-                        Id_Usuario = Registro.IdUsuario,
-                        Coords = Reporte.Coords,
-                        FechaDen = Reporte.FechaDen
+                        Id_Usuario = Reporte.IdUsuario,
+                        Usuario = Registro.Correo,
+                        Foto = Reporte.Foto,
+                        Descripcion = Reporte.Descripcion,
+                        Latitud = Reporte.Latitud,
+                        Longitud = Reporte.Longitud,
+                        Fecha = Reporte.Fecha
+                    }).Join(db.Etiqueta, Etiqueta => Etiqueta.Id_Etiqueta, Reporte => Reporte.IdEtiqueta,(Reporte, Etiqueta) => new ReporteRequest
+                    {
+                        Id_Reporte = Reporte.Id_Reporte,
+                        Id_Etiqueta = Reporte.Id_Etiqueta,
+                        Id_Usuario = Reporte.Id_Usuario,
+                        Etiqueta = Etiqueta.Nombre,
+                        Usuario = Reporte.Usuario,
+                        Foto = Reporte.Foto,
+                        Descripcion = Reporte.Descripcion,
+                        Latitud = Reporte.Latitud,
+                        Longitud = Reporte.Longitud,
+                        Fecha = Reporte.Fecha
                     }).FirstOrDefault(x => x.Id_Reporte == id);
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = list;
@@ -86,10 +114,11 @@ namespace Iluminame_La_Vida.Controllers
                     Reporte oPro = new Reporte();
                     oPro.IdUsuario = model.Id_Usuario;
                     oPro.IdEtiqueta = model.Id_Etiqueta;
-                    oPro.FechaDen = model.FechaDen;
-                    oPro.DescripLugar = model.DescripLugar;
-                    oPro.Coords = model.Coords;
-                    oPro.FotoReporte = model.Foto_Reporte;
+                    oPro.Fecha = model.Fecha;
+                    oPro.Descripcion = model.Descripcion;
+                    oPro.Latitud = model.Latitud;
+                    oPro.Longitud = model.Longitud;
+                    oPro.Foto = model.Foto;
                     db.Reportes.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -115,12 +144,13 @@ namespace Iluminame_La_Vida.Controllers
                 using (IluminameFinalContext db = new IluminameFinalContext())
                 {
                     Reporte oPro = db.Reportes.Find(model.Id_Reporte);
-                    oPro.DescripLugar = model.DescripLugar;
-                    oPro.FotoReporte = model.Foto_Reporte;
+                    oPro.Descripcion = model.Descripcion;
+                    oPro.Foto = model.Foto;
                     oPro.IdEtiqueta = model.Id_Etiqueta;
                     oPro.IdUsuario = model.Id_Usuario;
-                    oPro.Coords = model.Coords;
-                    oPro.FechaDen = model.FechaDen;
+                    oPro.Latitud = model.Latitud;
+                    oPro.Longitud = model.Longitud;
+                    oPro.Fecha = model.Fecha;
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -157,5 +187,25 @@ namespace Iluminame_La_Vida.Controllers
         }
     }
 }
+/* se puede usar el siguiente json para probar el metodo post
+{
+    "id_Usuario": 1,
+    "id_Etiqueta": 1,
+    "fecha": "2021-02-17T00:00:00",
+    "descripcion": "Asquerosamente oscuro",
+    "coordenadas": "0987654321",
+    "foto": "98ikjhb.jpg"
+}
+se puede usar el siguiente json para probar el metodo put
+{
+    "id_Reporte": 16,
+    "id_Usuario": 2,
+    "id_Etiqueta": 2,
+    "fecha": "2021-02-17T00:00:00",
+    "descripcion": "Asquerosamente oscuro",
+    "coordenadas": "0987654321",
+    "foto": "98ikjhb.jpg"
+}
+ */
 
 

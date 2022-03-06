@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace Iluminame_La_Vida.Models
 {
-    public partial class Etiquetum
+    public partial class Etiqueta
     {
-        public Etiquetum()
+        public Etiqueta()
         {
             Reportes = new HashSet<Reporte>();
         }
 
         public int IdEtiqueta { get; set; }
         public string Nombre { get; set; }
-        public byte[] DescEti { get; set; }
-        public string FotoEti { get; set; }
+        public string Descripcion { get; set; }
+        public string Foto { get; set; }
 
         public virtual ICollection<Reporte> Reportes { get; set; }
     }
