@@ -114,7 +114,7 @@ namespace Iluminame_La_Vida.Controllers
                     Reporte oPro = new Reporte();
                     oPro.IdUsuario = model.Id_Usuario;
                     oPro.IdEtiqueta = model.Id_Etiqueta;
-                    oPro.Fecha = model.Fecha;
+                    oPro.Fecha = DateTime.Now;
                     oPro.Descripcion = model.Descripcion;
                     oPro.Latitud = model.Latitud;
                     oPro.Longitud = model.Longitud;
