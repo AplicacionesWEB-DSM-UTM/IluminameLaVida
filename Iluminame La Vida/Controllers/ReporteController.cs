@@ -55,4 +55,25 @@ namespace Iluminame_La_Vida.Models.Controllers
             return Ok(response);
         }
     }
+/*
+{
+    "IdReporte": 1,
+    "IdEtiqueta": 1,
+    "IdUsuario": 1,
+    "IdFoto": 3,
+    "IdGeoubicacion": 1,
+    "Descripcion": "se rompio una bombilla en mi calle",
+    "Fecha" : "2022-03-14",
+    "GeoubicacionRequest": {
+        "IdGeoubicacion": 1,
+        "Latitud": 20.000999,
+        "Longitud": -89.000999
+    },
+    "fotoRequest": {
+        "idFoto": 3,
+        "nombre": "falla",
+        "url": "falla.jpg"
+    }
+}
+*/
 }

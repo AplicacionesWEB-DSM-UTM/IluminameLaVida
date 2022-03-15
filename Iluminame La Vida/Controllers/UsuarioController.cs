@@ -61,7 +61,7 @@ usalo para probar las funciones de Add y Edit:
     "idUsuario": 2,
     "idFoto": 3,
     "nombre": "Luis",
-    "apellidos": "Pool",
+    "apellido": "Pool",
     "correo": "luis@outlook.es",
     "contraseña": "0987654321",
     "fotoRequest": {

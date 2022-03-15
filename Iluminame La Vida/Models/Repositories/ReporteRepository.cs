@@ -22,7 +22,35 @@ namespace Iluminame_La_Vida.Models.Repositories
             {
                 using (IluminameContext db = new IluminameContext())
                 {
-                    var list = db.Reportes.Join(db.Usuarios, Reporte => Reporte.IdUsuario, Usuario => Usuario.IdUsuario, (Reporte, Usuario) => new ReporteRequest
+                    var usuario = db.Usuarios.Join(db.Fotos, Usuario => Usuario.IdFoto, Foto => Foto.IdFoto, (Usuario, Foto) => new UsuarioRequest
+                    {
+                        IdUsuario = Usuario.IdUsuario,
+                        IdFoto = Usuario.IdFoto,
+                        Nombre = Usuario.Nombre,
+                        Apellido = Usuario.Apellidos,
+                        Correo = Usuario.Correo,
+                        Contraseña = Usuario.Contraseña,
+                        FotoRequest = new FotoRequest
+                        {
+                            IdFoto = Foto.IdFoto,
+                            Nombre = Foto.Nombre,
+                            Url = Foto.Url,
+                        }
+                    });
+                    var etiqueta = db.Etiqueta.Join(db.Fotos, Etiqueta => Etiqueta.IdFoto, Foto => Foto.IdFoto, (Etiqueta, Foto) => new EtiquetaRequest
+                    {
+                        IdEtiqueta = Etiqueta.IdEtiqueta,
+                        IdFoto = Etiqueta.IdFoto,
+                        Nombre = Etiqueta.Nombre,
+                        Descripcion = Etiqueta.Descripcion,
+                        FotoRequest = new FotoRequest
+                        {
+                            IdFoto = Foto.IdFoto,
+                            Nombre = Foto.Nombre,
+                            Url = Foto.Url,
+                        }
+                    });
+                    var list = db.Reportes.Join(usuario, Reporte => Reporte.IdUsuario, Usuario => Usuario.IdUsuario, (Reporte, Usuario) => new ReporteRequest
                     {
                         IdReporte = Reporte.IdReporte,
                         IdEtiqueta = Reporte.IdEtiqueta,
@@ -35,11 +63,12 @@ namespace Iluminame_La_Vida.Models.Repositories
                             IdUsuario = Usuario.IdUsuario,
                             IdFoto = Usuario.IdFoto,
                             Nombre = Usuario.Nombre,
-                            Apellido = Usuario.Apellidos,
+                            Apellido = Usuario.Apellido,
                             Correo = Usuario.Correo,
-                            Contraseña = Usuario.Contraseña
+                            Contraseña = Usuario.Contraseña,
+                            FotoRequest = Usuario.FotoRequest
                         }
-                    }).Join(db.Etiqueta, Reporte => Reporte.IdEtiqueta, Etiqueta => Etiqueta.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest
+                    }).Join(etiqueta, Reporte => Reporte.IdEtiqueta, Etiqueta => Etiqueta.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest
                     {
                         IdReporte = Reporte.IdReporte,
                         IdEtiqueta = Reporte.IdEtiqueta,
@@ -53,7 +82,8 @@ namespace Iluminame_La_Vida.Models.Repositories
                             IdEtiqueta = Etiqueta.IdEtiqueta,
                             IdFoto = Etiqueta.IdFoto,
                             Nombre = Etiqueta.Nombre,
-                            Descripcion = Etiqueta.Descripcion
+                            Descripcion = Etiqueta.Descripcion,
+                            FotoRequest = Etiqueta.FotoRequest
                         }
                     }).Join(db.Geoubicacions, Reporte => Reporte.IdGeoubicacion, Geoubicacion => Geoubicacion.IdGeoubicacion, (Reporte, Geoubicacion) => new ReporteRequest
                     {
@@ -108,7 +138,35 @@ namespace Iluminame_La_Vida.Models.Repositories
             {
                 using (IluminameContext db = new IluminameContext())
                 {
-                    var list = db.Reportes.Join(db.Usuarios, Reporte => Reporte.IdUsuario, Usuario => Usuario.IdUsuario, (Reporte, Usuario) => new ReporteRequest
+                    var usuario = db.Usuarios.Join(db.Fotos, Usuario => Usuario.IdFoto, Foto => Foto.IdFoto, (Usuario, Foto) => new UsuarioRequest
+                    {
+                        IdUsuario = Usuario.IdUsuario,
+                        IdFoto = Usuario.IdFoto,
+                        Nombre = Usuario.Nombre,
+                        Apellido = Usuario.Apellidos,
+                        Correo = Usuario.Correo,
+                        Contraseña = Usuario.Contraseña,
+                        FotoRequest = new FotoRequest
+                        {
+                            IdFoto = Foto.IdFoto,
+                            Nombre = Foto.Nombre,
+                            Url = Foto.Url,
+                        }
+                    });
+                    var etiqueta = db.Etiqueta.Join(db.Fotos, Etiqueta => Etiqueta.IdFoto, Foto => Foto.IdFoto, (Etiqueta, Foto) => new EtiquetaRequest
+                    {
+                        IdEtiqueta = Etiqueta.IdEtiqueta,
+                        IdFoto = Etiqueta.IdFoto,
+                        Nombre = Etiqueta.Nombre,
+                        Descripcion = Etiqueta.Descripcion,
+                        FotoRequest = new FotoRequest
+                        {
+                            IdFoto = Foto.IdFoto,
+                            Nombre = Foto.Nombre,
+                            Url = Foto.Url,
+                        }
+                    });
+                    var list = db.Reportes.Join(usuario, Reporte => Reporte.IdUsuario, Usuario => Usuario.IdUsuario, (Reporte, Usuario) => new ReporteRequest
                     {
                         IdReporte = Reporte.IdReporte,
                         IdEtiqueta = Reporte.IdEtiqueta,
@@ -122,11 +180,12 @@ namespace Iluminame_La_Vida.Models.Repositories
                             IdUsuario = Usuario.IdUsuario,
                             IdFoto = Usuario.IdFoto,
                             Nombre = Usuario.Nombre,
-                            Apellido = Usuario.Apellidos,
+                            Apellido = Usuario.Apellido,
                             Correo = Usuario.Correo,
-                            Contraseña = Usuario.Contraseña
+                            Contraseña = Usuario.Contraseña,
+                            FotoRequest = Usuario.FotoRequest
                         }
-                    }).Join(db.Etiqueta, Reporte => Reporte.IdEtiqueta, Etiqueta => Etiqueta.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest
+                    }).Join(etiqueta, Reporte => Reporte.IdEtiqueta, Etiqueta => Etiqueta.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest
                     {
                         IdReporte = Reporte.IdReporte,
                         IdEtiqueta = Reporte.IdEtiqueta,
@@ -141,7 +200,8 @@ namespace Iluminame_La_Vida.Models.Repositories
                             IdEtiqueta = Etiqueta.IdEtiqueta,
                             IdFoto = Etiqueta.IdFoto,
                             Nombre = Etiqueta.Nombre,
-                            Descripcion = Etiqueta.Descripcion
+                            Descripcion = Etiqueta.Descripcion,
+                            FotoRequest = Etiqueta.FotoRequest
                         }
                     }).Join(db.Geoubicacions, Reporte => Reporte.IdGeoubicacion, Geoubicacion => Geoubicacion.IdGeoubicacion, (Reporte, Geoubicacion) => new ReporteRequest
                     {

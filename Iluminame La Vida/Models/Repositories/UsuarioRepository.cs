@@ -113,7 +113,7 @@ namespace Iluminame_La_Vida.Models.Repositories
                     Usuario oPro = db.Usuarios.Find(model.IdUsuario);
                     oPro.IdFoto = model.IdFoto;
                     oPro.Nombre = model.Nombre;
-                    oPro.Apellido = model.Apellido;
+                    oPro.Apellidos = model.Apellido;
                     oPro.Correo = model.Correo;
                     oPro.Contraseña = model.Contraseña;
 
