@@ -11,9 +11,9 @@ namespace Iluminame_La_Vida.Models.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EtiquetaController : ControllerBase
+    public class FotoController : ControllerBase
     {
-        EtiquetaRepository repository = new EtiquetaRepository();
+        FotoRepository repository = new FotoRepository();
 
         [HttpGet]
         //Consultar correos
@@ -32,16 +32,14 @@ namespace Iluminame_La_Vida.Models.Controllers
 
         [HttpPost]
         //Agregar usuario
-        public IActionResult Add(EtiquetaRequest model)
+        public IActionResult Add(FotoRequest model)
         {
             var response = repository.Add(model);
             return Ok(response);
         }
-
         [HttpPut]
         //Este metodo sirve para editar los correos
-
-        public IActionResult Edit(EtiquetaRequest model)
+        public IActionResult Edit(FotoRequest model)
         {
             var response = repository.Edit(model);
             return Ok(response);
@@ -55,18 +53,4 @@ namespace Iluminame_La_Vida.Models.Controllers
             return Ok(response);
         }
     }
-/*
-{
-usalo para probar las funciones de Add y Edit:
-    "idEtiqueta": 2,
-    "idFoto": 3,
-    "nombre": "Bombilla rota",
-    "descripcion": "La bombilla esta totalmente rota",
-    "fotoRequest": {
-        "idFoto": 4,
-        "nombre": "Bombilla rota",
-        "url": "Bombilla_rota.png"
-    }
-}
-*/
 }

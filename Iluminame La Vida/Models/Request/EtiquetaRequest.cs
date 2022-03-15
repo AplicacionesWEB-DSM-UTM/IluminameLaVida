@@ -7,9 +7,10 @@ namespace Iluminame_La_Vida.Models.Request
 {
     public class EtiquetaRequest
     {
-       public int Id_Etiqueta { get; set; }
-       public string Nombre { get; set; }
-       public string Descripcion { get; set; }
-       public string Foto { get; set; }
+        public int IdEtiqueta { get; set; }
+        public int? IdFoto { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public FotoRequest FotoRequest { get; set; }
     }
 }
