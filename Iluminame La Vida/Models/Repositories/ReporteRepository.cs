@@ -29,7 +29,6 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Nombre = Usuario.Nombre,
                         Apellido = Usuario.Apellidos,
                         Correo = Usuario.Correo,
-                        Contraseña = Usuario.Contraseña,
                         FotoRequest = new FotoRequest
                         {
                             IdFoto = Foto.IdFoto,
@@ -65,7 +64,6 @@ namespace Iluminame_La_Vida.Models.Repositories
                             Nombre = Usuario.Nombre,
                             Apellido = Usuario.Apellido,
                             Correo = Usuario.Correo,
-                            Contraseña = Usuario.Contraseña,
                             FotoRequest = Usuario.FotoRequest
                         }
                     }).Join(etiqueta, Reporte => Reporte.IdEtiqueta, Etiqueta => Etiqueta.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest
@@ -145,7 +143,6 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Nombre = Usuario.Nombre,
                         Apellido = Usuario.Apellidos,
                         Correo = Usuario.Correo,
-                        Contraseña = Usuario.Contraseña,
                         FotoRequest = new FotoRequest
                         {
                             IdFoto = Foto.IdFoto,
@@ -182,7 +179,6 @@ namespace Iluminame_La_Vida.Models.Repositories
                             Nombre = Usuario.Nombre,
                             Apellido = Usuario.Apellido,
                             Correo = Usuario.Correo,
-                            Contraseña = Usuario.Contraseña,
                             FotoRequest = Usuario.FotoRequest
                         }
                     }).Join(etiqueta, Reporte => Reporte.IdEtiqueta, Etiqueta => Etiqueta.IdEtiqueta, (Reporte, Etiqueta) => new ReporteRequest

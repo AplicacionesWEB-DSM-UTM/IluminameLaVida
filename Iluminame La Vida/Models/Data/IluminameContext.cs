@@ -136,10 +136,6 @@ namespace Iluminame_La_Vida.Models.Data
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Contraseña)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Correo)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -148,6 +144,14 @@ namespace Iluminame_La_Vida.Models.Data
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Token)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
             });
 

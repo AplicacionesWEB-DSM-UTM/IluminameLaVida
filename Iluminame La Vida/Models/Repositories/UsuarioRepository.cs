@@ -28,7 +28,8 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Nombre = Usuario.Nombre,
                         Apellido = Usuario.Apellidos,
                         Correo = Usuario.Correo,
-                        Contraseña = Usuario.Contraseña,
+                        Password = Usuario.Password,
+                        Token = Usuario.Token,
                         FotoRequest = new FotoRequest{
                             IdFoto = Foto.IdFoto,
                             Nombre = Foto.Nombre,
@@ -59,7 +60,8 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Nombre = Usuario.Nombre,
                         Apellido = Usuario.Apellidos,
                         Correo = Usuario.Correo,
-                        Contraseña = Usuario.Contraseña,
+                        Password = Usuario.Password,
+                        Token = Usuario.Token,
                         FotoRequest = new FotoRequest{
                             IdFoto = Foto.IdFoto,
                             Nombre = Foto.Nombre,
@@ -88,7 +90,8 @@ namespace Iluminame_La_Vida.Models.Repositories
                     oPro.Nombre = model.Nombre;
                     oPro.Apellidos = model.Apellido;
                     oPro.Correo = model.Correo;
-                    oPro.Contraseña = model.Contraseña;
+                    oPro.Password = model.Password;
+                    oPro.Token = model.Token;
                     db.Usuarios.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -115,7 +118,8 @@ namespace Iluminame_La_Vida.Models.Repositories
                     oPro.Nombre = model.Nombre;
                     oPro.Apellidos = model.Apellido;
                     oPro.Correo = model.Correo;
-                    oPro.Contraseña = model.Contraseña;
+                    oPro.Password = model.Password;
+                    oPro.Token = model.Token;
 
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
@@ -144,6 +148,101 @@ namespace Iluminame_La_Vida.Models.Repositories
 
                     foto.Delete(idfoto);
                     oRespuesta.Exito = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                oRespuesta.Mensaje = ex.Message;
+            }
+            return oRespuesta;
+        }
+        public Respuesta<object> Login(UsuarioRequest model)
+        {
+            Respuesta<object> oRespuesta = new Respuesta<object>();
+
+            try
+            {
+                using (IluminameContext db = new IluminameContext())
+                {
+                    TokenManager token = new TokenManager();
+                    var list = db.Usuarios.Join(db.Fotos, Usuario => Usuario.IdFoto, Foto => Foto.IdFoto, (Usuario, Foto) => new UsuarioRequest
+                    {
+                        IdUsuario = Usuario.IdUsuario,
+                        IdFoto = Usuario.IdFoto,
+                        Nombre = Usuario.Nombre,
+                        Apellido = Usuario.Apellidos,
+                        Correo = Usuario.Correo,
+                        Password = Usuario.Password,
+                        Token = model.Token,
+                        FotoRequest = new FotoRequest
+                        {
+                            IdFoto = Foto.IdFoto,
+                            Nombre = Foto.Nombre,
+                            Url = Foto.Url,
+                        }
+                    }).Where(x => x.Correo == model.Correo && x.Password == model.Password);
+
+                    if (list.Count() > 0)
+                    {
+                        model.Token = token.GenerateToken(model.Correo);
+                        Edit(model);
+                        oRespuesta.Exito = 1;
+                        oRespuesta.Data = model.Token;
+                    }
+                    else
+                    {
+                        oRespuesta.Mensaje = "Datos incorrectos";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                oRespuesta.Mensaje = ex.Message;
+            }
+            return oRespuesta;
+        }
+        public Respuesta<UsuarioRequest> Verify(string Token)
+        {
+            Respuesta<UsuarioRequest> oRespuesta = new Respuesta<UsuarioRequest>();
+
+            try
+            {
+                using (IluminameContext db = new IluminameContext())
+                {
+                    TokenManager token = new TokenManager();
+
+                    if (!token.ValidateToken(Token))
+                    {
+                        oRespuesta.Mensaje = "No autorizado";
+                        return oRespuesta;
+                    }
+
+                    var list = db.Usuarios.Join(db.Fotos, Usuario => Usuario.IdFoto, Foto => Foto.IdFoto, (Usuario, Foto) => new UsuarioRequest
+                    {
+                        IdUsuario = Usuario.IdUsuario,
+                        IdFoto = Usuario.IdFoto,
+                        Nombre = Usuario.Nombre,
+                        Apellido = Usuario.Apellidos,
+                        Correo = Usuario.Correo,
+                        Password = Usuario.Password,
+                        Token = Usuario.Token,
+                        FotoRequest = new FotoRequest
+                        {
+                            IdFoto = Foto.IdFoto,
+                            Nombre = Foto.Nombre,
+                            Url = Foto.Url,
+                        }
+                    }).FirstOrDefault(x => x.Token == Token);
+
+                    if (list != null)
+                    {
+                        oRespuesta.Exito = 1;
+                        oRespuesta.Data = list;
+                    }
+                    else
+                    {
+                        oRespuesta.Mensaje = "No se encontro el Usuario";
+                    }
                 }
             }
             catch (Exception ex)

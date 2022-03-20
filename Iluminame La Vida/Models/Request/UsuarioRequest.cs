@@ -12,7 +12,8 @@ namespace Iluminame_La_Vida.Models.Request
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Correo { get; set; }
-        public string Contraseña { get; set; }
+        public string Password { get; set; }
+        public string Token { get; set; }
         public FotoRequest FotoRequest { get; set; }
     }
 }

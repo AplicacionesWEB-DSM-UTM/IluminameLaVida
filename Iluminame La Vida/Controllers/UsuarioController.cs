@@ -40,7 +40,6 @@ namespace Iluminame_La_Vida.Models.Controllers
 
         [HttpPut]
         //Este metodo sirve para editar los correos
-
         public IActionResult Edit(UsuarioRequest model)
         {
             var response = repository.Edit(model);
@@ -52,6 +51,22 @@ namespace Iluminame_La_Vida.Models.Controllers
         public IActionResult Delete(int id)
         {
             var response = repository.Delete(id);
+            return Ok(response);
+        }
+
+        [HttpGet("login")]
+        //Con este metodo vamos a eliminar cualquiera que querramos
+        public IActionResult Login(UsuarioRequest model)
+        {
+            var response = repository.Login(model);
+            return Ok(response);
+        }
+
+        [HttpGet("verify")]
+        //Con este metodo vamos a eliminar cualquiera que querramos
+        public IActionResult Verify(TokenRequest model)
+        {
+            var response = repository.Verify(model.Token);
             return Ok(response);
         }
     }
