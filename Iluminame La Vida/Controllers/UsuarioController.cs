@@ -64,9 +64,9 @@ namespace Iluminame_La_Vida.Models.Controllers
 
         [HttpGet("verify")]
         //Con este metodo vamos a eliminar cualquiera que querramos
-        public IActionResult Verify(TokenRequest model)
+        public IActionResult Verify(string key)
         {
-            var response = repository.Verify(model.Token);
+            var response = repository.Verify(key);
             return Ok(response);
         }
     }
