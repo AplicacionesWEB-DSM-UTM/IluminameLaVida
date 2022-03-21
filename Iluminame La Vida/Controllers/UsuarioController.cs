@@ -54,7 +54,7 @@ namespace Iluminame_La_Vida.Models.Controllers
             return Ok(response);
         }
 
-        [HttpGet("login")]
+        [HttpPut("login")]
         //Con este metodo vamos a eliminar cualquiera que querramos
         public IActionResult Login(UsuarioRequest model)
         {

@@ -173,21 +173,21 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Apellido = Usuario.Apellidos,
                         Correo = Usuario.Correo,
                         Password = Usuario.Password,
-                        Token = model.Token,
+                        Token = Usuario.Token,
                         FotoRequest = new FotoRequest
                         {
                             IdFoto = Foto.IdFoto,
                             Nombre = Foto.Nombre,
                             Url = Foto.Url,
                         }
-                    }).Where(x => x.Correo == model.Correo && x.Password == model.Password);
+                    }).Where(x => x.Correo == model.Correo && x.Password == model.Password).FirstOrDefault();
 
-                    if (list.Count() > 0)
+                    if (list != null)
                     {
-                        model.Token = token.GenerateToken(model.Correo);
-                        Edit(model);
+                        list.Token = token.GenerateToken(model.Correo);
+                        Edit(list);
                         oRespuesta.Exito = 1;
-                        oRespuesta.Data = model.Token;
+                        oRespuesta.Data = list.Token;
                     }
                     else
                     {
