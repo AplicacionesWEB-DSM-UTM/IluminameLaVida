@@ -225,6 +225,7 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Apellido = Usuario.Apellidos,
                         Correo = Usuario.Correo,
                         Password = Usuario.Password,
+                        IsAdmin = Usuario.IsAdmin,
                         Token = Usuario.Token,
                         FotoRequest = new FotoRequest
                         {
