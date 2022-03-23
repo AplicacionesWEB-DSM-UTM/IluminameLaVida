@@ -18,7 +18,7 @@ namespace Iluminame_La_Vida.Models.Data
         public string Apellidos { get; set; }
         public string Correo { get; set; }
         public string Password { get; set; }
-        public int? IsAdmin { get; set; }
+        public int IsAdmin { get; set; }
         public string Token { get; set; }
 
         public virtual ICollection<Reporte> Reportes { get; set; }

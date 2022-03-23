@@ -92,6 +92,7 @@ namespace Iluminame_La_Vida.Models.Repositories
                     oPro.Correo = model.Correo;
                     oPro.Password = model.Password;
                     oPro.Token = model.Token;
+                    oPro.IsAdmin = 0;
                     db.Usuarios.Add(oPro);
                     db.SaveChanges();
                     oRespuesta.Exito = 1;
@@ -120,6 +121,7 @@ namespace Iluminame_La_Vida.Models.Repositories
                     oPro.Correo = model.Correo;
                     oPro.Password = model.Password;
                     oPro.Token = model.Token;
+                    oPro.IsAdmin = model.IsAdmin;
 
                     db.Entry(oPro).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();

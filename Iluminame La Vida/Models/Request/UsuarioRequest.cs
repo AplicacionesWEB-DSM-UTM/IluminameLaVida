@@ -13,7 +13,7 @@ namespace Iluminame_La_Vida.Models.Request
         public string Apellido { get; set; }
         public string Correo { get; set; }
         public string Password { get; set; }
-        public int? IsAdmin { get; set; }
+        public int IsAdmin { get; set; }
         public string Token { get; set; }
         public FotoRequest FotoRequest { get; set; }
     }
