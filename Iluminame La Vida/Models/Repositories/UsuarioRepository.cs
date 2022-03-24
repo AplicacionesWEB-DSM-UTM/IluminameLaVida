@@ -176,6 +176,7 @@ namespace Iluminame_La_Vida.Models.Repositories
                         Correo = Usuario.Correo,
                         Password = Usuario.Password,
                         Token = Usuario.Token,
+                        IsAdmin = Usuario.IsAdmin,
                         FotoRequest = new FotoRequest
                         {
                             IdFoto = Foto.IdFoto,
@@ -189,7 +190,7 @@ namespace Iluminame_La_Vida.Models.Repositories
                         list.Token = token.GenerateToken(model.Correo);
                         Edit(list);
                         oRespuesta.Exito = 1;
-                        oRespuesta.Data = list.Token;
+                        oRespuesta.Data = list;
                     }
                     else
                     {
